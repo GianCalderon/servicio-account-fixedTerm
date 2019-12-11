@@ -13,10 +13,10 @@ public class UtilConvert {
 
 		FixedTermAccount fixedTermAccount = new FixedTermAccount();
 
-		fixedTermAccount.setNumberAccount(fixedTermAccountDto.getNumberAccount());
+		fixedTermAccount.setNumber(fixedTermAccountDto.getNumber());
 		fixedTermAccount.setState(fixedTermAccountDto.getState());
 		fixedTermAccount.setBalance(fixedTermAccountDto.getBalance());
-
+		fixedTermAccount.setName("Cuenta Plazo Fijo");
 		return fixedTermAccount;
 
 	}

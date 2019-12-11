@@ -3,6 +3,7 @@ package com.springboot.fixedTermAccount.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.springboot.fixedTermAccount.client.PersonalClient;
 import com.springboot.fixedTermAccount.document.FixedTermAccount;
@@ -13,6 +14,7 @@ import com.springboot.fixedTermAccount.util.UtilConvert;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Service
 public class FixedTermAccountImpl implements FixedTermAccountInterface {
 	
   private static final Logger LOGGER = LoggerFactory.getLogger(FixedTermAccountImpl.class);
@@ -50,7 +52,7 @@ public class FixedTermAccountImpl implements FixedTermAccountInterface {
 		
 		return repo.findById(id).flatMap(s -> {
 
-			s.setNumberAccount(fixedTermAccount.getNumberAccount());
+			s.setNumber(fixedTermAccount.getNumber());
 			s.setBalance(fixedTermAccount.getBalance());
 			s.setState(fixedTermAccount.getState());
 			return repo.save(s);
@@ -66,7 +68,8 @@ public class FixedTermAccountImpl implements FixedTermAccountInterface {
 	@Override
 	public Mono<FixedTermAccountDto> saveDto(FixedTermAccountDto fixedTermAccountDto) {
 		
-
+          LOGGER.info("Service: "+fixedTermAccountDto.toString());
+          
 		return save(convert.convertFixedTermAccount(fixedTermAccountDto)).flatMap(ca -> {
 
 			fixedTermAccountDto.getHolders().forEach(p -> {

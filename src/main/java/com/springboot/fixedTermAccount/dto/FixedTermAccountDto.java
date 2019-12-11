@@ -7,7 +7,8 @@ import lombok.Data;
 @Data
 public class FixedTermAccountDto {
 
-	private String numberAccount;
+	private String number;
+	private String tea;
 	private String state;
 	private int balance;
 	private List<PersonalDto> holders;

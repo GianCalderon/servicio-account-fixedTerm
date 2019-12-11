@@ -82,9 +82,9 @@ public class FixedTermAccountController {
 	@PostMapping("/saveDto")
 	public Mono<ResponseEntity<FixedTermAccountDto>> saveDto(@RequestBody FixedTermAccountDto fixedTermAccountDto) {
 
-
-		return service.saveDto(fixedTermAccountDto).map(s -> ResponseEntity.created(URI.create("/api/fixedTermAccount"))
-				.contentType(MediaType.APPLICATION_JSON).body(s));
+        LOGGER.info("Controller: "+fixedTermAccountDto.toString());
+		return service.saveDto(fixedTermAccountDto).map(f -> ResponseEntity.created(URI.create("/api/fixedTermAccount"))
+				.contentType(MediaType.APPLICATION_JSON).body(f));
 
 	}
 	

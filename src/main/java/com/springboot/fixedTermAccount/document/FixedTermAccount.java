@@ -11,7 +11,9 @@ public class FixedTermAccount {
 	
 	@Id
 	private String id;
-	private String numberAccount;
+	private String name;
+	private String number;
+	private int tea;
 	private String state;
 	private int balance;
 

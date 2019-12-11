@@ -15,7 +15,7 @@ public class AppConfig {
 	public WebClient registrarWebClient() {
 		
 		
-		return WebClient.create("http://localhost:8010/api/personal");
+		return WebClient.create("http://localhost:8001/api/personal");
 
 		
 	
