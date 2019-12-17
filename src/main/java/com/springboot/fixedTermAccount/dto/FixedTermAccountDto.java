@@ -10,7 +10,7 @@ public class FixedTermAccountDto {
 	private String number;
 	private String tea;
 	private String state;
-	private int balance;
+	private Double balance;
 	private List<PersonalDto> holders;
 	
 }

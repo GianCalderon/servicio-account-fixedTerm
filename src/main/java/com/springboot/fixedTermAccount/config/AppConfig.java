@@ -1,4 +1,4 @@
-package com.springboot.fixedTermAccount;
+package com.springboot.fixedTermAccount.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
