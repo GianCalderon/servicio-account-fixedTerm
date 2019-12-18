@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.fixedTermAccount.document.FixedTermAccount;
+import com.springboot.fixedTermAccount.dto.CuentaDto;
 import com.springboot.fixedTermAccount.dto.FixedTermAccountDto;
+import com.springboot.fixedTermAccount.dto.PersonalDto;
 import com.springboot.fixedTermAccount.service.FixedTermAccountImpl;
 
 import reactor.core.publisher.Flux;
@@ -78,13 +80,26 @@ public class FixedTermAccountController {
 		}).defaultIfEmpty(new ResponseEntity<Void>(HttpStatus.NOT_FOUND));
 
 	}
+	
+	//OPERACIONES QUE EXPONES SERVICIOS
 
-	@PostMapping("/saveDto")
+	@PostMapping("/personal")
 	public Mono<ResponseEntity<FixedTermAccountDto>> saveDto(@RequestBody FixedTermAccountDto fixedTermAccountDto) {
 
-        LOGGER.info("Controller: "+fixedTermAccountDto.toString());
+        LOGGER.info("Controller -----> "+fixedTermAccountDto.toString());
+        
 		return service.saveDto(fixedTermAccountDto).map(f -> ResponseEntity.created(URI.create("/api/fixedTermAccount"))
 				.contentType(MediaType.APPLICATION_JSON).body(f));
+
+	}
+	
+	@PostMapping("/addAccount")
+	public Mono<ResponseEntity<PersonalDto>> saveAddDto(@RequestBody CuentaDto cuentaDto) {
+
+		 LOGGER.info("Controller -----> "+cuentaDto.toString());
+
+		return service.saveAddCuenta(cuentaDto).map(s -> ResponseEntity.created(URI.create("/api/currentAccount"))
+				.contentType(MediaType.APPLICATION_JSON).body(s));
 
 	}
 	

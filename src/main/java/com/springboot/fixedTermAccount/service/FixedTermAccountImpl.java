@@ -1,5 +1,9 @@
 package com.springboot.fixedTermAccount.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.fixedTermAccount.client.PersonalClient;
 import com.springboot.fixedTermAccount.document.FixedTermAccount;
+import com.springboot.fixedTermAccount.dto.CuentaDto;
 import com.springboot.fixedTermAccount.dto.FixedTermAccountDto;
+import com.springboot.fixedTermAccount.dto.PersonalDto;
 import com.springboot.fixedTermAccount.repo.FixedTermAccountRepo;
 import com.springboot.fixedTermAccount.util.UtilConvert;
 
@@ -26,7 +32,7 @@ public class FixedTermAccountImpl implements FixedTermAccountInterface {
 	UtilConvert convert;
 	
 	@Autowired
-	PersonalClient webClient;
+	PersonalClient webClientPer;
 	
 	
 	@Override
@@ -52,7 +58,7 @@ public class FixedTermAccountImpl implements FixedTermAccountInterface {
 		
 		return repo.findById(id).flatMap(s -> {
 
-			s.setNumber(fixedTermAccount.getNumber());
+			s.setNumberAccount(fixedTermAccount.getNumberAccount());
 			s.setBalance(fixedTermAccount.getBalance());
 			s.setState(fixedTermAccount.getState());
 			return repo.save(s);
@@ -68,21 +74,52 @@ public class FixedTermAccountImpl implements FixedTermAccountInterface {
 	@Override
 	public Mono<FixedTermAccountDto> saveDto(FixedTermAccountDto fixedTermAccountDto) {
 		
-          LOGGER.info("Service: "+fixedTermAccountDto.toString());
+		 LOGGER.info("Service -----> "+fixedTermAccountDto.toString());
           
 		return save(convert.convertFixedTermAccount(fixedTermAccountDto)).flatMap(ca -> {
 
 			fixedTermAccountDto.getHolders().forEach(p -> {
 
-				p.setIdCuenta(ca.getId());
+				p.setIdAccount(ca.getId());
+				p.setNameAccount("Cuenta-Plazo-Fijo");
 
-				webClient.save(p).block();
+				webClientPer.save(p).block();
 
 			});
 
 			return Mono.just(fixedTermAccountDto);
 		});
 		
+	}
+	
+	@Override
+	public Mono<PersonalDto> saveAddCuenta(CuentaDto cuentaDto) {
+		
+		
+		 LOGGER.info("Service -----> "+cuentaDto.toString());
+		 
+	    return repo.save(convert.convertFixedTermAccountUpdate(cuentaDto)).flatMap(c->{
+	    	
+	    	return webClientPer.findById(cuentaDto.getDni()).flatMap(p->{
+	    		
+	    		LOGGER.info("Flujo Inicial  ---->: "+p.toString());
+	    		
+	    		List<Map<String,String>> lista=p.getIdCuentas();
+	            
+	    		 Map<String,String> listmap = new HashMap<String,String>();
+	    		 listmap.put(c.getId(),c.getName());
+	             lista.add(listmap);
+	           
+	             p.setIdCuentas(lista);
+	             
+	             LOGGER.info("Flujo Final ---->: "+p.toString());
+	             
+	            return webClientPer.update(p,cuentaDto.getDni());
+	            
+	 
+	    	});
+	    	
+	    });
 	}
 
 }
