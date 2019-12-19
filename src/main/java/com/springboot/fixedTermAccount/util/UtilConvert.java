@@ -23,8 +23,8 @@ public class UtilConvert {
 		 
 		FixedTermAccount fixedTermAccount = new FixedTermAccount();
 
-		fixedTermAccount.setName("Cuenta-Plazo-Fijo");
-		fixedTermAccount.setNumberAccount(fixedTermAccountDto.getNumberAccount());
+		fixedTermAccount.setNameAccount("Cuenta-Plazo-Fijo");
+		fixedTermAccount.setNumberAccount("00104040"+String.valueOf((int)(Math.random()*99999999+1)));
 		fixedTermAccount.setState(fixedTermAccountDto.getState());
 		fixedTermAccount.setBalance(fixedTermAccountDto.getBalance());
 		fixedTermAccount.setTea(fixedTermAccountDto.getTea());
@@ -45,8 +45,8 @@ public class UtilConvert {
 
 		FixedTermAccount  currentAccount = new FixedTermAccount();
 
-		currentAccount.setName("Cuenta-Plazo-Fijo");
-		currentAccount.setNumberAccount(cuentaDto.getNumberAccount());
+		currentAccount.setNameAccount("Cuenta-Plazo-Fijo");
+		currentAccount.setNumberAccount("00104040"+String.valueOf((int)(Math.random()*99999999+1)));
 		currentAccount.setState(cuentaDto.getState());
 		currentAccount.setBalance(cuentaDto.getBalance());
 		currentAccount.setTea(cuentaDto.getTea());

@@ -22,7 +22,7 @@ public class FixedTermAccount {
 	private String id;
 	
 	@NotNull(message = "Account' name must not be null")
-	private String name;
+	private String nameAccount;
 	
 	@NotNull(message = "Account' number must not be null")
 	private String numberAccount;

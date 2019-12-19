@@ -93,7 +93,7 @@ public class FixedTermAccountController {
 
 	}
 	
-	@PostMapping("/addAccount")
+	@PostMapping("/addAccountPer")
 	public Mono<ResponseEntity<PersonalDto>> saveAddDto(@RequestBody CuentaDto cuentaDto) {
 
 		 LOGGER.info("Controller -----> "+cuentaDto.toString());

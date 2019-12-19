@@ -77,7 +77,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PersonalClient.clas
 
 	public Mono<PersonalDto> update(PersonalDto personalDto, String id) {
 		
-		LOGGER.info("LISTO PARA ACTUALIZAR: "+personalDto.toString()+"ID --> :"+id);
+		LOGGER.info("LISTO PARA ACTUALIZAR: "+personalDto.toString()+" ID --> :"+id);
 		
 		return client.put()
 				   .uri("/{id}",Collections.singletonMap("id",id))
@@ -86,6 +86,19 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PersonalClient.clas
 				   .syncBody(personalDto)
 				   .retrieve()
 				   .bodyToMono(PersonalDto.class);
+	}
+	
+  public Mono<PersonalDto> findByNumDoc(String id) {
+		
+		Map<String,Object> param=new HashMap<String,Object>();
+		param.put("id", id);
+		return client.get().uri("/doc/{id}",param)
+				.accept(MediaType.APPLICATION_JSON)
+				.retrieve()
+				.bodyToMono(PersonalDto.class);
+		        
+//		        .exchange()
+//		        .flatMapMany(response ->response.bodyToMono(FamilyDTO.class));
 	}
 
 }

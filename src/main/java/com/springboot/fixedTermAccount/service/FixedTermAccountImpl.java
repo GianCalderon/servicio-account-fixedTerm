@@ -92,29 +92,55 @@ public class FixedTermAccountImpl implements FixedTermAccountInterface {
 		
 	}
 	
+//	@Override
+//	public Mono<PersonalDto> saveAddCuenta(CuentaDto cuentaDto) {
+//		
+//		
+//		 LOGGER.info("Service -----> "+cuentaDto.toString());
+//		 
+//	    return repo.save(convert.convertFixedTermAccountUpdate(cuentaDto)).flatMap(c->{
+//	    	
+//	    	return webClientPer.findById(cuentaDto.getDni()).flatMap(p->{
+//	    		
+//	    		LOGGER.info("Flujo Inicial  ---->: "+p.toString());
+//	    		
+//	    		List<Map<String,String>> lista=p.getIdCuentas();
+//	            
+//	    		 Map<String,String> listmap = new HashMap<String,String>();
+//	    		 listmap.put(c.getId(),c.getName());
+//	             lista.add(listmap);
+//	           
+//	             p.setIdCuentas(lista);
+//	             
+//	             LOGGER.info("Flujo Final ---->: "+p.toString());
+//	             
+//	            return webClientPer.update(p,cuentaDto.getDni());
+//	            
+//	 
+//	    	});
+//	    	
+//	    });
+//	}
+	
+	
+	
 	@Override
 	public Mono<PersonalDto> saveAddCuenta(CuentaDto cuentaDto) {
 		
-		
-		 LOGGER.info("Service -----> "+cuentaDto.toString());
-		 
 	    return repo.save(convert.convertFixedTermAccountUpdate(cuentaDto)).flatMap(c->{
 	    	
-	    	return webClientPer.findById(cuentaDto.getDni()).flatMap(p->{
+	    	return webClientPer.findByNumDoc(cuentaDto.getDni()).flatMap(titular->{
 	    		
-	    		LOGGER.info("Flujo Inicial  ---->: "+p.toString());
-	    		
-	    		List<Map<String,String>> lista=p.getIdCuentas();
+	    		LOGGER.info("Flujo Inicial ---->: "+titular.toString());
 	            
-	    		 Map<String,String> listmap = new HashMap<String,String>();
-	    		 listmap.put(c.getId(),c.getName());
-	             lista.add(listmap);
-	           
-	             p.setIdCuentas(lista);
+	    		
+	    		titular.setNameAccount(c.getNameAccount());
+	    		titular.setIdAccount(c.getId());
+	    		
+
+	             LOGGER.info("Flujo Final ----->: "+titular.toString());
 	             
-	             LOGGER.info("Flujo Final ---->: "+p.toString());
-	             
-	            return webClientPer.update(p,cuentaDto.getDni());
+	            return webClientPer.update(titular,cuentaDto.getDni());
 	            
 	 
 	    	});
