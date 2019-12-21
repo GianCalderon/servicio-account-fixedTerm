@@ -1,9 +1,5 @@
 package com.springboot.fixedTermAccount.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.fixedTermAccount.client.PersonalClient;
 import com.springboot.fixedTermAccount.document.FixedTermAccount;
+import com.springboot.fixedTermAccount.dto.AccountDto;
 import com.springboot.fixedTermAccount.dto.CuentaDto;
 import com.springboot.fixedTermAccount.dto.FixedTermAccountDto;
 import com.springboot.fixedTermAccount.dto.PersonalDto;
@@ -129,7 +126,7 @@ public class FixedTermAccountImpl implements FixedTermAccountInterface {
 		
 	    return repo.save(convert.convertFixedTermAccountUpdate(cuentaDto)).flatMap(c->{
 	    	
-	    	return webClientPer.findByNumDoc(cuentaDto.getDni()).flatMap(titular->{
+	    	return webClientPer.findByNumDoc(cuentaDto.getNumDoc()).flatMap(titular->{
 	    		
 	    		LOGGER.info("Flujo Inicial ---->: "+titular.toString());
 	            
@@ -140,12 +137,49 @@ public class FixedTermAccountImpl implements FixedTermAccountInterface {
 
 	             LOGGER.info("Flujo Final ----->: "+titular.toString());
 	             
-	            return webClientPer.update(titular,cuentaDto.getDni());
+	            return webClientPer.update(titular,cuentaDto.getNumDoc());
 	            
 	 
 	    	});
 	    	
 	    });
 	}
+	
+	public Mono<PersonalDto> valid(CuentaDto cuentaDto) {
+	 
+		
+	    return webClientPer.valid(cuentaDto.getNumDoc()).collectList().flatMap(c->{
+	    	int cont=0;
+	    	LOGGER.info("PRUEBA 2 --->"+c.toString());
+	    	LOGGER.info("PRUEBA 2.1 --->"+c.size());
+	    	 for (int i=0; i<c.size();i++) {
+	    		 
+	    		 AccountDto obj=c.get(i);
+	    		
 
+		    		
+	    		 LOGGER.info("PRUEBA 3 --->"+cuentaDto.toString());
+		    	if(obj.getIdAccount().substring(0,6).equals("001020")) {
+		    			
+		    	       cont++;
+		    	
+		    	}
+					
+				}
+
+	    	 LOGGER.info("contador "+cont);
+	    	 if(cont==0) {
+	    		 
+	    		 return saveAddCuenta(cuentaDto);
+	    		 
+	    	 }else {
+	    		 
+	    		 return Mono.empty();
+	    	 }
+	    	 
+//	    	 return Mono.empty();
+	     });
+
+}
+	
 }

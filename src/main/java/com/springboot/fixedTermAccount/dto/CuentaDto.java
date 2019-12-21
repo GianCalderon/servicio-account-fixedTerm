@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CuentaDto {
 	
-	private String dni;
+	private String numDoc;
 	private String numberAccount;
 	private Double tea;
 	private String state;
