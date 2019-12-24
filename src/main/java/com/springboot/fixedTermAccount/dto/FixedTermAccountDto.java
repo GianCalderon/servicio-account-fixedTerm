@@ -11,6 +11,6 @@ public class FixedTermAccountDto {
 	private Double tea;
 	private String state;
 	private Double balance;
-	private List<PersonalDto> holders;
+	private List<PersonalDto> headlines;
 	
 }

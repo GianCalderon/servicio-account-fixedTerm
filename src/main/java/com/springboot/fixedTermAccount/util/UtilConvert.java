@@ -8,9 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.springboot.fixedTermAccount.document.FixedTermAccount;
-import com.springboot.fixedTermAccount.dto.CuentaDto;
+import com.springboot.fixedTermAccount.dto.AccountDto;
 import com.springboot.fixedTermAccount.dto.FixedTermAccountDto;
-import com.springboot.fixedTermAccount.service.FixedTermAccountImpl;
 
 @Component
 public class UtilConvert {
@@ -39,22 +38,22 @@ public class UtilConvert {
 	}
 	
 	
-	public FixedTermAccount convertFixedTermAccountUpdate(CuentaDto cuentaDto) {
+	public FixedTermAccount convertAccountDto(AccountDto accountDto) {
 		
-		 LOGGER.info("Antes del Convertidor -----> "+cuentaDto.toString());
+		 LOGGER.info("Antes del Convertidor -----> "+accountDto.toString());
 
 		FixedTermAccount  currentAccount = new FixedTermAccount();
 
 		currentAccount.setNameAccount("Cuenta-Plazo-Fijo");
 		currentAccount.setNumberAccount("00104040"+String.valueOf((int)(Math.random()*99999999+1)));
-		currentAccount.setState(cuentaDto.getState());
-		currentAccount.setBalance(cuentaDto.getBalance());
-		currentAccount.setTea(cuentaDto.getTea());
+		currentAccount.setState(accountDto.getState());
+		currentAccount.setBalance(accountDto.getBalance());
+		currentAccount.setTea(accountDto.getTea());
 		currentAccount.setCreateDate(new Date());
 		currentAccount.setUpdateDate(new Date());
 		currentAccount.setIdOperation(new ArrayList<String>());
 
-		 LOGGER.info("Despues del Convertidor -----> "+cuentaDto.toString());
+		 LOGGER.info("Despues del Convertidor -----> "+accountDto.toString());
 		
 		return currentAccount;
 
