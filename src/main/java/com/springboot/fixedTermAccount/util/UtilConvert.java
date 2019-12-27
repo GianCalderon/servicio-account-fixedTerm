@@ -22,8 +22,8 @@ public class UtilConvert {
 		 
 		FixedTermAccount fixedTermAccount = new FixedTermAccount();
 
-		fixedTermAccount.setNameAccount("Cuenta-Plazo-Fijo");
-		fixedTermAccount.setNumberAccount("00104040"+String.valueOf((int)(Math.random()*99999999+1)));
+		fixedTermAccount.setNameAccount(CodAccount.NAME_CURRENT_ACCOUNT);
+		fixedTermAccount.setNumberAccount(CodAccount.COD_CURRENT_ACCOUNT+String.valueOf((int)(Math.random()*99999999+1)));
 		fixedTermAccount.setState(fixedTermAccountDto.getState());
 		fixedTermAccount.setBalance(fixedTermAccountDto.getBalance());
 		fixedTermAccount.setTea(fixedTermAccountDto.getTea());
@@ -42,20 +42,20 @@ public class UtilConvert {
 		
 		 LOGGER.info("Antes del Convertidor -----> "+accountDto.toString());
 
-		FixedTermAccount  currentAccount = new FixedTermAccount();
+		FixedTermAccount  fixedTermAccount = new FixedTermAccount();
 
-		currentAccount.setNameAccount("Cuenta-Plazo-Fijo");
-		currentAccount.setNumberAccount("00104040"+String.valueOf((int)(Math.random()*99999999+1)));
-		currentAccount.setState(accountDto.getState());
-		currentAccount.setBalance(accountDto.getBalance());
-		currentAccount.setTea(accountDto.getTea());
-		currentAccount.setCreateDate(new Date());
-		currentAccount.setUpdateDate(new Date());
-		currentAccount.setIdOperation(new ArrayList<String>());
+		fixedTermAccount.setNameAccount(CodAccount.NAME_CURRENT_ACCOUNT);
+		fixedTermAccount.setNumberAccount(CodAccount.COD_CURRENT_ACCOUNT+String.valueOf((int)(Math.random()*99999999+1)));
+		fixedTermAccount.setState(accountDto.getState());
+		fixedTermAccount.setBalance(accountDto.getBalance());
+		fixedTermAccount.setTea(accountDto.getTea());
+		fixedTermAccount.setCreateDate(new Date());
+		fixedTermAccount.setUpdateDate(new Date());
+		fixedTermAccount.setIdOperation(new ArrayList<String>());
 
 		 LOGGER.info("Despues del Convertidor -----> "+accountDto.toString());
 		
-		return currentAccount;
+		return fixedTermAccount;
 
 	}
 

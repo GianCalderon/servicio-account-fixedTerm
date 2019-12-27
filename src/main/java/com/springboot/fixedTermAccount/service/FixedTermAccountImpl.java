@@ -95,7 +95,7 @@ public class FixedTermAccountImpl implements FixedTermAccountInterface {
 
 					LOGGER.info("PRUEBA 3 --->" + accountDto.toString());
 
-				    if (obj.getNumberAccount().substring(0, 6).equals(CodAccount.fixedTermAccount)) cont++;
+				    if (obj.getNumberAccount().substring(0, 6).equals(CodAccount.COD_CURRENT_ACCOUNT)) cont++;
 
 				}
 		     
