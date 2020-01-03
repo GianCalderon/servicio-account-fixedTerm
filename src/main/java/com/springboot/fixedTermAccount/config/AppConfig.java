@@ -8,17 +8,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class AppConfig {
 	
 	
-//	@Value("${config.base.endpoint}")
-//	private String url;
-	
 	@Bean
 	public WebClient registrarWebClient() {
-		
-		
-		return WebClient.create("http://localhost:8001/api/personal");
 
+		//return WebClient.create("http://localhost:8001/api/personal");
 		
-	
+		return WebClient.create("http://gateway-server:9090/api/personal");
+
 	}
 
 }
