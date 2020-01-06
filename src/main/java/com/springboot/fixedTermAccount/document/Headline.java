@@ -3,10 +3,8 @@ package com.springboot.fixedTermAccount.document;
 import lombok.Data;
 
 @Data
-public class Cuenta {
+public class Headline {
 	
-	private String numAccount;
-	private String nameAccount;
+	private String numDoc;
 	
-
 }

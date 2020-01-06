@@ -2,8 +2,8 @@ package com.springboot.fixedTermAccount.util;
 
 public class CodAccount {
 
-	public final static String COD_CURRENT_ACCOUNT= "001040";
-	  public final static String NAME_CURRENT_ACCOUNT = "Cuenta-Corriente-VIP";
+	public final static String COD_FIXEDTERM_ACCOUNT= "0030";
+	public final static String NAME_FIXEDTERM_ACCOUNT = "Cuenta-Plazo-Fijo";
 
 
 }

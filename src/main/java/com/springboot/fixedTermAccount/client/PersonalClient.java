@@ -87,11 +87,10 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PersonalClient.clas
 				   .bodyToMono(PersonalDto.class);
 	}
 	
-  public Mono<PersonalDto> findByNumDoc(String id) {
+  public Mono<PersonalDto> findByNumDoc(String dni) {
 		
-		Map<String,Object> param=new HashMap<String,Object>();
-		param.put("id", id);
-		return client.get().uri("/doc/{id}",param)
+	  return client.get()
+				.uri("/numDoc/{dni}",Collections.singletonMap("dni",dni))
 				.accept(MediaType.APPLICATION_JSON)
 				.retrieve()
 				.bodyToMono(PersonalDto.class);

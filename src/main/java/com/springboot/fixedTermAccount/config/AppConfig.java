@@ -10,11 +10,12 @@ public class AppConfig {
 	
 	@Bean
 	public WebClient registrarWebClient() {
-
-		//return WebClient.create("http://localhost:8001/api/personal");
 		
-		return WebClient.create("http://gateway-server:9090/api/personal");
+		//return WebClient.create("http://gateway-server:9090/api/personal");
 
+		return WebClient.create("http://localhost:8001/api/personal");
+		
+		
 	}
 
 }

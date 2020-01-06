@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.fixedTermAccount.client.PersonalClient;
 import com.springboot.fixedTermAccount.document.FixedTermAccount;
 import com.springboot.fixedTermAccount.dto.AccountDto;
-import com.springboot.fixedTermAccount.dto.FixedTermAccountDto;
-import com.springboot.fixedTermAccount.dto.PersonalDto;
 import com.springboot.fixedTermAccount.service.FixedTermAccountImpl;
 
 import reactor.core.publisher.Flux;
@@ -30,12 +29,13 @@ import reactor.core.publisher.Mono;
 @RequestMapping("api/fixedTermAccount")
 public class FixedTermAccountController {
 
-	
 	private static final Logger LOGGER = LoggerFactory.getLogger(FixedTermAccountController.class);
-	
-	
+
 	@Autowired
 	FixedTermAccountImpl service;
+	
+	@Autowired
+	PersonalClient client;
 
 	@GetMapping
 	public Mono<ResponseEntity<Flux<FixedTermAccount>>> toList() {
@@ -46,90 +46,72 @@ public class FixedTermAccountController {
 
 	@GetMapping("/{id}")
 	public Mono<ResponseEntity<FixedTermAccount>> search(@PathVariable String id) {
-
+		
 		return service.findById(id).map(s -> ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(s))
 				.defaultIfEmpty(ResponseEntity.notFound().build());
 
 	}
-
+	
 	@PostMapping
-	public Mono<ResponseEntity<FixedTermAccount>> save(@RequestBody FixedTermAccount fixedTermAccount) {
+	public Mono<ResponseEntity<FixedTermAccount>> save(@RequestBody AccountDto accountDto) {
+		
+		LOGGER.info("accountDto ---> "+accountDto.toString());
 
-		return service.save(fixedTermAccount)
-				.map(f -> ResponseEntity.created(URI.create("/api/fixedTermAccount".concat(f.getId())))
-						.contentType(MediaType.APPLICATION_JSON).body(f));
+		return service.save(accountDto)
+				.map(s -> ResponseEntity.created(URI.create("/api/fixedTermAccount".concat(s.getId())))
+						 .contentType(MediaType.APPLICATION_JSON).body(s))
+				         .defaultIfEmpty(new ResponseEntity<FixedTermAccount>(HttpStatus.NOT_FOUND));
 
 	}
 
 	@PutMapping("/{id}")
-	public Mono<ResponseEntity<FixedTermAccount>> update(@RequestBody FixedTermAccount fixedTermAccount,
+	public Mono<ResponseEntity<FixedTermAccount>> update(@RequestBody FixedTermAccount FixedTermAccount,
 			@PathVariable String id) {
+		
+		
+		LOGGER.info("Controller ----> "+FixedTermAccount.toString());
 
-		return service.update(fixedTermAccount, id)
-				.map(f -> ResponseEntity.created(URI.create("/api/fixedTermAccount".concat(f.getId())))
-						.contentType(MediaType.APPLICATION_JSON).body(f))
+		return service.update(FixedTermAccount, id)
+				.map(s -> ResponseEntity.created(URI.create("/api/fixedTermAccount".concat(s.getId())))
+						.contentType(MediaType.APPLICATION_JSON).body(s))
 				.defaultIfEmpty(ResponseEntity.notFound().build());
 
 	}
+	
 
 	@DeleteMapping("/{id}")
 	public Mono<ResponseEntity<Void>> delete(@PathVariable String id) {
 
-		return service.findById(id).flatMap(f -> {
-			return service.delete(f).then(Mono.just(new ResponseEntity<Void>(HttpStatus.ACCEPTED)));
+		return service.findById(id).flatMap(s -> {
+			return service.delete(s).then(Mono.just(new ResponseEntity<Void>(HttpStatus.ACCEPTED)));
 		}).defaultIfEmpty(new ResponseEntity<Void>(HttpStatus.NOT_FOUND));
 
 	}
 	
-	//OPERACIONES QUE EXPONES SERVICIOS
+	//OPERACIONES QUE CONSUMEN SERVICIO
 
-//	@PostMapping("/personal")
-//	public Mono<ResponseEntity<FixedTermAccountDto>> saveDto(@RequestBody FixedTermAccountDto fixedTermAccountDto) {
-//
-//        LOGGER.info("Controller -----> "+fixedTermAccountDto.toString());
-//        
-//		return service.saveDto(fixedTermAccountDto).map(f -> ResponseEntity.created(URI.create("/api/fixedTermAccount"))
-//				.contentType(MediaType.APPLICATION_JSON).body(f));
-//
-//	}
-//	
-//	@PostMapping("/addAccountPer")
-//	public Mono<ResponseEntity<PersonalDto>> saveAddDto(@RequestBody CuentaDto cuentaDto) {
-//
-//		 LOGGER.info("Controller -----> "+cuentaDto.toString());
-//
-//		return service.valid(cuentaDto).map(s -> ResponseEntity.created(URI.create("/api/currentAccount"))
-//				.contentType(MediaType.APPLICATION_JSON).body(s));
-//
-//	}
 	
-	@PostMapping("/saveHeadline")
-	public Mono<ResponseEntity<PersonalDto>> saveHeadline(@RequestBody AccountDto accountDto) {
-
-		LOGGER.info("Controller ---> :"+accountDto.toString());
-
-		return service.saveHeadline(accountDto).map(s -> ResponseEntity.created(URI.create("/api/fixedTermAccount"))
-				.contentType(MediaType.APPLICATION_JSON).body(s))
-				.defaultIfEmpty(new ResponseEntity<PersonalDto>(HttpStatus.CONFLICT));
-
-	}
-	
-	
-	@PostMapping("/saveHeadlines")
-	public Mono<ResponseEntity<FixedTermAccountDto>> saveHeadlines(@RequestBody FixedTermAccountDto fixedTermAccountDto) {
-
-		LOGGER.info("Controller ----> "+fixedTermAccountDto.toString());
-
-		return service.saveHeadlines(fixedTermAccountDto).map(s -> ResponseEntity.created(URI.create("/api/fixedTermAccount"))
-				.contentType(MediaType.APPLICATION_JSON).body(s))
-				.defaultIfEmpty(new ResponseEntity<FixedTermAccountDto>(HttpStatus.CONFLICT));
+	@GetMapping("/dni/{dni}")
+	public Flux<FixedTermAccount> searchByDni(@PathVariable String dni) {
+				
+		return service.findByDni(dni);
 
 	}
 	
 	
 	
+	@GetMapping("/account/{numberAccount}")
+	public Mono<ResponseEntity<FixedTermAccount>> searchByNumAccount(@PathVariable String numberAccount) {
+		
+		LOGGER.info("NUMERO DE CUENTA :--->"+numberAccount);
+
+		return service.findByNumAccount(numberAccount).map(s -> ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(s))
+				.defaultIfEmpty(ResponseEntity.notFound().build());
+
+	}
+
 	
 	
 	
-	
+
 }

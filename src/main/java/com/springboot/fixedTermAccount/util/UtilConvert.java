@@ -2,61 +2,47 @@ package com.springboot.fixedTermAccount.util;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.springboot.fixedTermAccount.document.FixedTermAccount;
+import com.springboot.fixedTermAccount.document.Headline;
 import com.springboot.fixedTermAccount.dto.AccountDto;
-import com.springboot.fixedTermAccount.dto.FixedTermAccountDto;
 
 @Component
 public class UtilConvert {
 	
 	 private static final Logger LOGGER = LoggerFactory.getLogger(UtilConvert.class);
 	
-	public FixedTermAccount convertFixedTermAccount(FixedTermAccountDto fixedTermAccountDto) {
-
-		 LOGGER.info("Antes del Convertidor -----> "+fixedTermAccountDto.toString());
-		 
-		FixedTermAccount fixedTermAccount = new FixedTermAccount();
-
-		fixedTermAccount.setNameAccount(CodAccount.NAME_CURRENT_ACCOUNT);
-		fixedTermAccount.setNumberAccount(CodAccount.COD_CURRENT_ACCOUNT+String.valueOf((int)(Math.random()*99999999+1)));
-		fixedTermAccount.setState(fixedTermAccountDto.getState());
-		fixedTermAccount.setBalance(fixedTermAccountDto.getBalance());
-		fixedTermAccount.setTea(fixedTermAccountDto.getTea());
-		fixedTermAccount.setCreateDate(new Date());
-		fixedTermAccount.setUpdateDate(new Date());
-		fixedTermAccount.setIdOperation(new ArrayList<String>());
-		
-		 LOGGER.info("Antes del Convertidor -----> "+fixedTermAccountDto.toString());
-		 
-		return fixedTermAccount;
-
-	}
 	
-	
-	public FixedTermAccount convertAccountDto(AccountDto accountDto) {
-		
-		 LOGGER.info("Antes del Convertidor -----> "+accountDto.toString());
+		public FixedTermAccount convertAccountDto(AccountDto accountDto) {
+			
+			 LOGGER.info("convetir 1 -->"+accountDto.toString());
+			 
+			 List<Headline> listHeadline=new ArrayList<Headline>();
+			 Headline headline=new Headline();
+			 headline.setNumDoc(accountDto.getNumDoc());
+			 listHeadline.add(headline);
 
-		FixedTermAccount  fixedTermAccount = new FixedTermAccount();
+			FixedTermAccount  FixedTermAccount = new FixedTermAccount();
 
-		fixedTermAccount.setNameAccount(CodAccount.NAME_CURRENT_ACCOUNT);
-		fixedTermAccount.setNumberAccount(CodAccount.COD_CURRENT_ACCOUNT+String.valueOf((int)(Math.random()*99999999+1)));
-		fixedTermAccount.setState(accountDto.getState());
-		fixedTermAccount.setBalance(accountDto.getBalance());
-		fixedTermAccount.setTea(accountDto.getTea());
-		fixedTermAccount.setCreateDate(new Date());
-		fixedTermAccount.setUpdateDate(new Date());
-		fixedTermAccount.setIdOperation(new ArrayList<String>());
+			FixedTermAccount.setNameBank(accountDto.getNameBank());
+			FixedTermAccount.setHeadlines(listHeadline);
+			FixedTermAccount.setNameAccount(CodAccount.NAME_FIXEDTERM_ACCOUNT);
+			FixedTermAccount.setNumberAccount(CodAccount.COD_FIXEDTERM_ACCOUNT+String.valueOf((int)(Math.random()*99999999+1)));
+			FixedTermAccount.setState("Activo");
+			FixedTermAccount.setBalance(accountDto.getBalance());
+			FixedTermAccount.setTea(12.5);
+			FixedTermAccount.setCreateDate(new Date());
+			FixedTermAccount.setUpdateDate(new Date());
+			
 
-		 LOGGER.info("Despues del Convertidor -----> "+accountDto.toString());
-		
-		return fixedTermAccount;
+			 LOGGER.info("convetir 2-->"+FixedTermAccount.toString());
+			return FixedTermAccount;
 
-	}
+		}
 
 }
